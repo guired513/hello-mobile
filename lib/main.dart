@@ -20,18 +20,23 @@ class MyApp extends StatelessWidget {
 }
 
 class HelloScreen extends StatefulWidget {
-  const HelloScreen({super.key});
-
   @override
   HelloScreenState createState() => HelloScreenState();
 }
 
 class HelloScreenState extends State<HelloScreen> {
   int _counter = 0;
+  String _name = '';
 
   void _incrementCounter() {
     setState(() {
-      _counter++; // updates the UI
+      _counter++;
+    });
+  }
+
+  void _updateName(String value) {
+    setState(() {
+      _name = value;
     });
   }
 
@@ -41,15 +46,35 @@ class HelloScreenState extends State<HelloScreen> {
       appBar: AppBar(
         title: Text('Hello Mobile!'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text('You have tapped the button this many times:'),
-            SizedBox(height: 12),
+            Text('Enter your name:', style: TextStyle(fontSize: 16)),
+            SizedBox(height: 8),
+            TextField(
+              onChanged: _updateName,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Your name here',
+              ),
+            ),
+            SizedBox(height: 20),
+            if (_name.isNotEmpty)
+              Text(
+                'Hello, $_name!',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            SizedBox(height: 40),
+            Text(
+              'You have tapped the button this many times:',
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 8),
             Text(
               '$_counter',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             ),
           ],
         ),
